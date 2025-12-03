@@ -8,7 +8,6 @@
 > **ECOCITY** là dự án game mô phỏng xây dựng thành phố 3D, tập trung vào việc cân bằng giữa phát triển kinh tế và bảo vệ môi trường. Dự án được phát triển nhằm mục đích học tập và nghiên cứu các hệ thống cốt lõi trong Unity.
 
 ![Gameplay Demo](Docs/Images/MainMenu.jpg)
-*(Lưu ý: Bạn hãy chụp ảnh game, tạo thư mục Docs/Images và thay đường dẫn ảnh vào đây)*
 
 ## ✨ Tính Năng Nổi Bật (Key Features)
 
@@ -25,7 +24,7 @@
 
 ### 📊 Quản lý Tài nguyên & Dữ liệu (Economy & Data)
 *   **ScriptableObjects:** Quản lý dữ liệu công trình (Giá tiền, Mức tiêu thụ điện, Chỉ số ô nhiễm) giúp dễ dàng cân bằng game mà không cần sửa code.
-*   **Resource Manager:** Hệ thống kinh tế quản lý Tiền ($) và Độ ô nhiễm.
+*   **Resource Manager:** Hệ thống kinh tế quản lý Tiền ($).
 
 ### 🎥 RTS Camera Controller
 *   Điều khiển Camera theo phong cách game chiến thuật: Di chuyển (WASD), Zoom (Scroll), Pan.
@@ -109,7 +108,7 @@ Mọi đóng góp đều được hoan nghênh! Nếu bạn muốn cải thiện
 
 ## 📄 License
 
-Dự án này được phân phối dưới giấy phép **MIT**. Xem file [LICENSE](LICENSE) để biết thêm chi tiết.
+Dự án này được phân phối dưới giấy phép **MIT**. Xem file [LICENSE](LICENSE.md) để biết thêm chi tiết.
 
 ---
 
