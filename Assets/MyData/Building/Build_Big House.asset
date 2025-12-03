@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7612a2ff5f8fb9f46abede2f2b9715d3, type: 3}
+  m_Name: Build_Big House
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingData
+  buildingName: Build_Big House
+  cost: 300
+  buildingPrefab: {fileID: 661225994901884864, guid: b1175cc5bbb11b648af5926d9432b494, type: 3}
+  icon: {fileID: 1006413847, guid: e618e9cf60d7df741a90deb7cc26da50, type: 3}
+  size: {x: 3, y: 3}
+  isCropPlant: 0
+  isUnique: 0
+  heightOffset: 0

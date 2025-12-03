@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7612a2ff5f8fb9f46abede2f2b9715d3, type: 3}
+  m_Name: Build_PostOffice
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingData
+  buildingName: PostOffice
+  cost: 1000
+  buildingPrefab: {fileID: 185809312957769805, guid: 2ce6895e22fce924598db81b9d61d878, type: 3}
+  icon: {fileID: -1391616015, guid: 805a7723f8af1b44fa5e63e9cf4ab861, type: 3}
+  size: {x: 2, y: 2}
+  isCropPlant: 0
+  isUnique: 1
+  heightOffset: 0

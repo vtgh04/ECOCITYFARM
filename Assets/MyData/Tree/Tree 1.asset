@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7612a2ff5f8fb9f46abede2f2b9715d3, type: 3}
+  m_Name: Tree 1
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingData
+  buildingName: Tree 1
+  cost: 50
+  buildingPrefab: {fileID: 2572097703481524650, guid: 95f4f756e216b2d4b8720539b6ce9e0c, type: 3}
+  icon: {fileID: -2084736668, guid: f62833b1bd612e34fb385ad55b3474f5, type: 3}
+  size: {x: 1, y: 1}
+  isCropPlant: 0
+  isUnique: 0
+  heightOffset: 0

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7612a2ff5f8fb9f46abede2f2b9715d3, type: 3}
+  m_Name: brewery house
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingData
+  buildingName: brewery house
+  cost: 500
+  buildingPrefab: {fileID: 1249549583879913045, guid: b252a8cf039a238438d3204e5e63307b, type: 3}
+  icon: {fileID: 832677640, guid: 9e83e3cc481182f48871f4061a35dfa0, type: 3}
+  size: {x: 4, y: 4}
+  isCropPlant: 0
+  isUnique: 0
+  heightOffset: 0

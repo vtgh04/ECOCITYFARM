@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd814d7075b7f7d40bba89064168c21b, type: 3}
+  m_Name: Plant_Carrot
+  m_EditorClassIdentifier: Assembly-CSharp::PlantData
+  plantName: Plant_Carrot
+  seedItem: {fileID: 11400000, guid: bacb2f68a2f7f3643a0bf2b088837df3, type: 2}
+  buyPrice: 10
+  daysToGrow: 20
+  growthStagePrefabs:
+  - {fileID: 2582875128571546930, guid: f4ea6b9d24fd2164795278fa98ffb6c1, type: 3}
+  - {fileID: 3856223855077511753, guid: 1a0fc3072ca96ec4283af64115b956a1, type: 3}
+  - {fileID: 8204887017581438627, guid: 256da108ea4933f498908e467e4c1fc9, type: 3}
+  harvestedCropItem: {fileID: 11400000, guid: 61b372f374930854e997b527a80b2a6f, type: 2}
+  harvestYield: 3
+  icon: {fileID: 1999975607, guid: 1581ff642778d4d4ca902ec2d134e984, type: 3}

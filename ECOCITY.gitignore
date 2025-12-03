@@ -1,0 +1,125 @@
+# =========================
+# Unity generated files
+# =========================
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# Unity Package Manager
+/[Aa]ssets/AssetStoreTools*/
+.packages/
+
+# Visual Studio / Rider
+.vs/
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Unity3D generated meta files (đã có .meta ở dưới nhưng giữ lại cho chắc)
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Unity3D generated file on crash reports
+sysinfo.txt
+
+# Builds
+*.apk
+*.aab
+*.unitypackage
+*.app
+*.exe
+*.x86_64
+*.x86
+*.dll
+*.pdb
+
+# Crashlytics generated file
+crashlytics-build.properties
+
+# Local development
+/[Aa]ssets/Plugins/Android/
+/Assets/StreamingAssets/*.*  (không up file nặng như video, audio lớn)
+!/[Aa]ssets/StreamingAssets/.gitkeep
+
+# Never commit these
+[Dd]ebugLog/
+[Rr]eleaseLog/# =========================
+# Unity generated files
+# =========================
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# Unity Package Manager
+/[Aa]ssets/AssetStoreTools*/
+.packages/
+
+# Visual Studio / Rider
+.vs/
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Unity3D generated meta files (đã có .meta ở dưới nhưng giữ lại cho chắc)
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Unity3D generated file on crash reports
+sysinfo.txt
+
+# Builds
+*.apk
+*.aab
+*.unitypackage
+*.app
+*.exe
+*.x86_64
+*.x86
+*.dll
+*.pdb
+
+# Crashlytics generated file
+crashlytics-build.properties
+
+# Local development
+/[Aa]ssets/Plugins/Android/
+/Assets/StreamingAssets/*.*  (không up file nặng như video, audio lớn)
+!/[Aa]ssets/StreamingAssets/.gitkeep
+
+# Never commit these
+[Dd]ebugLog/
+[Rr]eleaseLog/

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7612a2ff5f8fb9f46abede2f2b9715d3, type: 3}
+  m_Name: Build_FarmPlot
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingData
+  buildingName: Build_FarmPlot
+  cost: 100
+  buildingPrefab: {fileID: 8628059962668431258, guid: 8d59287f4b13e5446bf1c31c7c600f55, type: 3}
+  icon: {fileID: 242047543, guid: 49469ef03a02bfc4ba2a1c5fcc7b5aac, type: 3}
+  size: {x: 1, y: 1}
+  isCropPlant: 1
+  isUnique: 0
+  heightOffset: -0.2555
