@@ -80,15 +80,17 @@ Dự án sử dụng **Git LFS** để quản lý assets. Vui lòng đảm bảo
 
 ```text
 Assets/
-├── _Scenes/           # Các màn chơi (Main Menu, Gameplay)
-├── _Scripts/          # Source Code C#
-│   ├── Managers/      # (GameManager, BuildingManager...)
-│   ├── Controllers/   # (CameraController...)
-│   ├── Setup/       # (DayNightCycle, Economy...)
-│   └── Data/          # (ScriptableObjects definitions)
-├── Prefabs/           # Các Object mẫu (Nhà, Cây, UI)
-├── ScriptableObjects/ # Dữ liệu cấu hình Game (Building Stats)
-├── Materials/         # URP Materials
+├── MyScenes/           # Các màn chơi (Main Menu, Gameplay)
+├── Scripts/          # Source Code C#
+│   ├── Building/    # BuildingPlacementSystem,WorldStruture
+│   ├── Core/       # GirdSystem,ItemData,PlantData...
+│   ├── Setup/       # DayNightCycle,SimpleZoomBuilding...
+│   ├── UI Controller/     #InventoryUI,MarketUI... 
+    └── Economy /       #PlayerWallet,InventoryManager     
+├── MyPrefabs/           # Các Object mẫu (Nhà, Cây, UI)
+├── MyData/ # Dữ liệu cấu hình Game (Building Stats) and # (ScriptableObjects definitions)
+├── MyUI/
+├── MyMaterials       # URP Materials
 └── Art/               # Models, Textures (Third-party assets)
 ```
 
