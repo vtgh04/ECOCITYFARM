@@ -117,4 +117,4 @@ Dự án này được phân phối dưới giấy phép **MIT**. Xem file [LICE
 ### Liên hệ
 *   **Developer:** [VÕ TRẦN GIA HUY]
 *   **Email:** [vtgh1602@gmail.com]
-*   **Portfolio:** [https://www.linkedin.com/in/tran-gia-huy-121b54395/ ]
+*   **Portfolio:** [https://www.linkedin.com/in/vtgh1602]
