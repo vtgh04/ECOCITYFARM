@@ -5,24 +5,36 @@ public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance { get; private set; }
     
-    // Event to tell crops to grow
     public static event Action OnDayChanged;
 
     [Header("Time Settings")]
     [Tooltip("How many real seconds = 1 game day (24 hours)?")]
-    public float realSecondsPerGameDay = 120f; // Slower day for better testing
+    public float realSecondsPerGameDay = 30; 
+    private void Update()
+    {
+        _dayProgress += Time.deltaTime / realSecondsPerGameDay;
+
+        if (_dayProgress >= 1f)
+        {
+            _dayProgress = 0f;
+            _currentDay++;
+            OnDayChanged?.Invoke();
+        }
+    }
 
     // FIXED START TIME: 6 AM
     private const float START_HOUR = 6f; 
 
     private int _currentDay = 1;
-    private float _dayProgress = 0f; // 0.0 to 1.0
+    private float _dayProgress = 0f;
     public float DayProgress => _dayProgress; 
 
     public int CurrentDay => _currentDay;
     
-    // Returns current hour (0.0 to 24.0)
-    public float CurrentHour => _dayProgress * 24f; 
+
+    public float CurrentHour => _dayProgress * 24f;
+
+    public float CurrentTimeOfDay { get; internal set; }
 
     private void Awake()
     {
@@ -34,18 +46,6 @@ public class TimeManager : MonoBehaviour
     {
         // Force start at 6:00 AM (6/24 = 0.25)
         _dayProgress = START_HOUR / 24f;
-    }
-
-    private void Update()
-    {
-        _dayProgress += Time.deltaTime / realSecondsPerGameDay;
-
-        if (_dayProgress >= 1f)
-        {
-            _dayProgress = 0f;
-            _currentDay++;
-            OnDayChanged?.Invoke();
-        }
     }
 
     public string GetFormattedTime()

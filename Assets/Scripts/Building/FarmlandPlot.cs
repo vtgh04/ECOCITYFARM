@@ -4,14 +4,14 @@ public class FarmlandPlot : MonoBehaviour
 {
     [SerializeField] public Transform plantMountPoint;
     
-    // Đổi thành [SerializeField] để debug trên Inspector
+  
     [SerializeField] private PlantData _currentCrop; 
     [SerializeField] private int _daysOld;
     
     private GameObject _visual;
     public bool IsPlanted { get; private set; } = false;
 
-    // --- HÀM CHO SAVE SYSTEM GỌI ---
+    // --- HÀM CHO SAVE SYSTEM GỌI ---  
     public PlantData GetCurrentCrop()
     {
         return _currentCrop;
@@ -64,9 +64,8 @@ public class FarmlandPlot : MonoBehaviour
         {
             _visual = Instantiate(_currentCrop.growthStagePrefabs[stageIndex], plantMountPoint.position, Quaternion.identity, plantMountPoint);
             
-            // QUAN TRỌNG: Gán cây con vào Layer "Building" để tool xóa có thể bắn trúng
+           
             _visual.layer = LayerMask.NameToLayer("Building"); 
-            // Nếu cây con có nhiều part, bạn cần dùng hàm đệ quy để set layer cho tất cả child
         }
     }
 
@@ -80,6 +79,14 @@ public class FarmlandPlot : MonoBehaviour
             {
                 InventoryManager.Instance.AddItem(_currentCrop.harvestedCropItem, _currentCrop.harvestYield);
                 if (GameSoundController.Instance) GameSoundController.Instance.PlayHarvest();
+                
+                // Cloud Analytics Tracking
+                if (AnalyticsTracker.Instance != null)
+                {
+                    int rewardValue = _currentCrop.harvestedCropItem.sellPrice * _currentCrop.harvestYield;
+                    AnalyticsTracker.Instance.TrackCropHarvested(_currentCrop.plantName, _currentCrop.harvestYield, rewardValue);
+                }
+                
                 ClearPlant(); 
             }
             else
@@ -109,7 +116,7 @@ public class FarmlandPlot : MonoBehaviour
         _currentCrop = data;
         _daysOld = days;
         IsPlanted = true;
-        UpdateVisual(); // Phải gọi dòng này để cây hiện lên ngay lập tức
+        UpdateVisual(); 
     }
     
 }

@@ -7,14 +7,14 @@ public class MarketMenuController : MonoBehaviour
 {
     [Header("UI Containers")]
     [SerializeField] private GameObject subCategoryContainer; 
-    [SerializeField] private GameObject itemHotbarContainer; // The Vertical Menu
+    [SerializeField] private GameObject itemHotbarContainer; 
     [SerializeField] private Transform itemContentArea;       
     [SerializeField] private Button itemButtonTemplate;       
 
     [Header("Button Positioning")]
-    // Drag your 5 Sub-Buttons here in order (0=House, 1=Crop, etc.)
+
     [SerializeField] private List<RectTransform> categoryButtons; 
-    [SerializeField] private float menuOffsetY = 10f; // Space between button and menu
+    [SerializeField] private float menuOffsetY = 10f; 
 
     [Header("Data Lists")]
     [SerializeField] private List<BuildingData> houseList; 
@@ -73,11 +73,10 @@ public void OnCategoryClicked(int categoryIndex)
 
             RectTransform targetBtn = categoryButtons[categoryIndex];
             
-            // CÁCH FIX: Đặt vị trí trùng khít với nút bấm trước
+            
             itemHotbarContainer.transform.position = targetBtn.transform.position;
 
-            // Sau đó nhích Y lên một đoạn cố định (thay vì tính toán phức tạp)
-            // Thử số 120f (tương đương chiều cao cái nút)
+           
             Vector3 fixedOffset = new Vector3(0, 50f, 0); 
             
             itemHotbarContainer.transform.position += fixedOffset;
@@ -102,24 +101,24 @@ public void OnCategoryClicked(int categoryIndex)
         {
             if (item == null) continue;
 
-            // 1. Create the Button
+     
             Button btn = Instantiate(itemButtonTemplate, itemContentArea);
             btn.gameObject.SetActive(true);
             
-            // 2. Setup UI Visuals
+     
             Transform iconObj = btn.transform.Find("Img_Icon");
             Transform textObj = btn.transform.Find("Txt_Price");
 
             Image iconImage = (iconObj != null) ? iconObj.GetComponent<Image>() : null;
             TextMeshProUGUI priceText = (textObj != null) ? textObj.GetComponent<TextMeshProUGUI>() : null;
 
-            // 3. Add Listeners with DEBUG LOGS
+         
             if (item is BuildingData bData)
             {
                 if (priceText) priceText.text = $"${bData.cost}";
                 if (iconImage && bData.icon != null) iconImage.sprite = bData.icon;
 
-                // --- DEBUG LOG ADDED HERE ---
+           
                 btn.onClick.AddListener(() => 
                 {
                     Debug.Log($"[Market UI] Clicked Button for Building: {bData.buildingName}");

@@ -30,7 +30,7 @@ public class BuildingPlacementSystem : MonoBehaviour
 
     public bool IsPlacingMode => _isPlacingMode;
 
-    // Cache layer masks (static để reuse toàn app nếu cần) - loại bỏ readonly và khởi tạo ở Awake
+
     private static int BuildingLayerMask;
     private static int FarmPlotLayerMask;
 
@@ -40,11 +40,11 @@ public class BuildingPlacementSystem : MonoBehaviour
     private void Awake() 
     { 
         Instance = this; 
-        _overlapResults = new Collider[64]; // Kích thước đủ cho hầu hết các trường hợp
+        _overlapResults = new Collider[64]; 
 
-        // Khởi tạo layer masks ở đây để tránh gọi ở initializer
+      
         BuildingLayerMask = LayerMask.GetMask("Building");
-        FarmPlotLayerMask = LayerMask.GetMask("Ground"); // Giả sử layer của FarmlandPlot là "FarmPlot" - điều chỉnh nếu khác
+        FarmPlotLayerMask = LayerMask.GetMask("Ground"); 
     }
 
     private void Update()
@@ -87,16 +87,16 @@ public class BuildingPlacementSystem : MonoBehaviour
         if(_previewObject) Destroy(_previewObject); 
     }
     
-    // --- LẤY LAYER MASK PHÙ HỢP ---
+   
     private LayerMask GetTargetLayer()
     {
-        // Nếu đang xây nhà hoặc xây ô đất -> Bắn vào Terrain
+     
         if (_selectedBuilding != null) return terrainLayer;
         
-        // Nếu đang trồng cây -> Bắn vào FarmPlot (Ground)
+      
         if (_selectedPlant != null) return farmPlotLayer;
 
-        return terrainLayer; // Mặc định
+        return terrainLayer;
     }
 
     private void UpdatePreview()
@@ -105,33 +105,33 @@ public class BuildingPlacementSystem : MonoBehaviour
         
         Ray ray = _mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
         
-        // Layer mask linh hoạt: Terrain cho building, FarmPlot cho plant
+      
         LayerMask targetLayer = _selectedBuilding != null ? terrainLayer : farmPlotLayer;
 
         if (Physics.Raycast(ray, out RaycastHit hit, 1000f, targetLayer))
         {
-            // Smooth rotation (giữ nguyên, nhưng clamp để tránh overflow)
+           
             _previewObject.transform.rotation = Quaternion.Lerp(
                 _previewObject.transform.rotation, 
                 Quaternion.Euler(0, _currentRotationY, 0), 
                 Time.deltaTime * 20f
             );
             
-            // Tính size theo rotation (giữ nguyên)
+         
             Vector2Int currentSize = (_selectedBuilding != null) 
                 ? GetRotatedSize(_selectedBuilding.size) 
                 : new Vector2Int(1, 1);
             
-            // Grid snapping chính xác hơn: Dùng GetGridCoordinate thay vì Floor riêng
+            
             Vector2Int gridPos = _gridSystem.GetGridCoordinate(hit.point);
 
-            // World pos từ grid (chính xác, tránh lệch do hit.point)
+          
             Vector3 snappedPos = _gridSystem.SnapToGrid(hit.point);
 
-            // Điều chỉnh cho plant: Nếu plant, lấy trực tiếp từ hit (vì FarmPlot có vị trí riêng)
+            
             if (_selectedPlant != null)
             {
-                // Lấy pos từ FarmlandPlot để preview khớp chính xác
+                
                 FarmlandPlot plot = hit.collider.GetComponentInParent<FarmlandPlot>();
                 if (plot != null && plot.plantMountPoint != null)
                 {
@@ -139,25 +139,25 @@ public class BuildingPlacementSystem : MonoBehaviour
                 }
                 else
                 {
-                    // Fallback nếu không hit plot (không nên xảy ra)
+                   
                     snappedPos.y += 0.1f;
                 }
             }
             else
             {
-                // Building: Áp dụng height offset
+              
                 snappedPos.y += _selectedBuilding?.heightOffset ?? 0f;
             }
 
             _previewObject.transform.position = snappedPos;
             
-            // Validate và set material (gọi CheckValidity với gridPos chính xác)
+           
             bool isValid = CheckValidity(hit, gridPos, currentSize);
             SetPreviewMaterial(isValid);
         }
         else
         {
-            // Nếu không hit layer → Ẩn preview hoặc set invalid
+            
             SetPreviewMaterial(false);
         }
     }
@@ -212,6 +212,10 @@ public class BuildingPlacementSystem : MonoBehaviour
                 List<Vector2Int> occupiedArea = CalculateCells(gridPos, currentSize);
                 _gridSystem.OccupyArea(occupiedArea);
 
+                // Cloud Analytics & Save Tracking
+                AnalyticsTracker.Instance?.TrackBuildingPlaced(_selectedBuilding.buildingName, _selectedBuilding.cost, newObj.transform.position);
+                CloudSaveIntegration.OnBuildingPlaced(_selectedBuilding.buildingName, _selectedBuilding.cost, newObj.transform.position);
+
                 GameSoundController.Instance?.PlayPlaceBuilding();
             }
             // 2. PLANT SEED (Trồng lên FarmPlot)
@@ -223,7 +227,12 @@ public class BuildingPlacementSystem : MonoBehaviour
                     SpawnMoneyPopup(plot.transform.position, -_selectedPlant.buyPrice);
                     plot.Plant(_selectedPlant);
                     
+                    // Cloud Analytics Tracking (Fire and forget, just track the purchase)
+                    AnalyticsTracker.Instance?.TrackPurchase(_selectedPlant.plantName, 1, _selectedPlant.buyPrice);
+                    
                     GameSoundController.Instance?.PlayPlant();
+                    
+                    
                 }
             }
         }
@@ -239,20 +248,18 @@ public class BuildingPlacementSystem : MonoBehaviour
         // === 2. XỬ LÝ ĐẶT NHÀ ===
         if (_selectedBuilding != null)
         {
-            // Unique building check (rất nhanh nếu BuildingRegistry dùng Dictionary)
+           
             if (_selectedBuilding.isUnique && BuildingRegistry.Instance.IsBuildingExisting(_selectedBuilding.buildingName))
                 return false;
 
-            // Tính occupied cells (reuse list nếu có pool, nhưng tạm dùng new vì ít gọi)
+            
             List<Vector2Int> occupiedCells = CalculateCells(centerGridPos, currentSize);
 
-            // Kiểm tra lưới chiếm chỗ – nhanh với HashSet
+           
             if (_gridSystem.IsAreaOccupied(occupiedCells))
                 return false;
 
-            // === Tối ưu OverlapBox để tránh overlap vật lý ===
-            // - Shrink 0.85f để tránh rìa, height 5f để bao quát
-            // - Nâng center lên để tránh chạm đất (dùng hit.point.y + height/2)
+         
             const float BOX_SHRINK = 0.85f;
             const float BOX_HEIGHT = 5f; 
             
@@ -275,11 +282,11 @@ public class BuildingPlacementSystem : MonoBehaviour
             for (int i = 0; i < hitCount; i++)
             {
                 var col = _overlapResults[i];
-                // Bỏ qua preview và child của nó (nhanh, không allocation)
+          
                 if (col.gameObject == _previewObject || col.transform.IsChildOf(_previewObject.transform))
                     continue;
 
-                // Nếu có collider khác (Building/Default) → invalid
+               
                 return false;
             }
 
@@ -290,7 +297,7 @@ public class BuildingPlacementSystem : MonoBehaviour
         if (_selectedPlant != null)
         {
             // Raycast xuống để tìm chính xác FarmlandPlot (từ hit.point + up, khoảng cách ngắn)
-            Vector3 rayOrigin = hit.point + Vector3.up * 3f; // Đủ cao tránh địa hình nhỏ
+            Vector3 rayOrigin = hit.point + Vector3.up * 3f; //
 
             if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit plotHit, 6f, FarmPlotLayerMask))
             {
@@ -298,8 +305,8 @@ public class BuildingPlacementSystem : MonoBehaviour
                 if (plot == null || plot.IsPlanted)
                     return false;
 
-                // Check vật cản phía trên plot (Sphere nhỏ + NonAlloc)
-                // Nâng center lên 0.5f để tránh va chạm với chính plot
+             
+    
                 int blockerCount = Physics.OverlapSphereNonAlloc(
                     plot.transform.position + Vector3.up * 0.5f, 
                     0.3f,  // Radius nhỏ để chính xác
@@ -309,7 +316,7 @@ public class BuildingPlacementSystem : MonoBehaviour
                 for (int i = 0; i < blockerCount; i++)
                 {
                     var col = _overlapResults[i];
-                    // Bỏ qua chính plot và child của nó
+                 
                     if (col.gameObject == plot.gameObject || col.transform.IsChildOf(plot.transform))
                         continue;
 

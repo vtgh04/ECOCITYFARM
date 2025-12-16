@@ -120,7 +120,7 @@ public class MainMenuController : MonoBehaviour
             loadingSlider.value = 0;
         }
 
-        float duration = 2.0f; // Giảm xuống 2s cho nhanh, 30s lâu quá :D
+        float duration = 2.0f; 
         float timer = 0f;
 
         while (timer < duration)

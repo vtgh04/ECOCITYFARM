@@ -21,7 +21,7 @@ public class ToolsMenuUI : MonoBehaviour
     {
         if (ToolManager.Instance == null) return;
 
-        // TOGGLE LOGIC: If we are already holding the Harvest tool, drop it.
+      
         if (ToolManager.Instance.CurrentTool == ToolType.Harvest)
         {
             ToolManager.Instance.DeselectTool();
@@ -43,7 +43,7 @@ public class ToolsMenuUI : MonoBehaviour
         }
         else
         {
-            ToolManager.Instance.SelectTool(2); // 2 = Remove
+            ToolManager.Instance.SelectTool(2); 
         }
     }
      public void CloseToolsMenu()

@@ -6,29 +6,29 @@ public class PostOfficeSlotUI : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private Image itemIcon;
-    [SerializeField] private TextMeshProUGUI quantityText; // Displays "5/10"
+    [SerializeField] private TextMeshProUGUI quantityText; 
     [SerializeField] private Button sellButton;
-    [SerializeField] private Image sellButtonImage; // To change color (Green/Red)
-    // [SerializeField] private TextMeshProUGUI rewardText; // To show Price
+    [SerializeField] private Image sellButtonImage;
+    
 
     private ItemData _requiredItem;
     private int _requiredAmount;
     private int _rewardMoney;
 
-    // Call this to setup the row
+    
     public void Setup(ItemData item, int amount)
     {
         _requiredItem = item;
         _requiredAmount = amount;
         
-        // Calculate reward (e.g. 1.5x normal sell price as a bonus for doing the order)
+        
         _rewardMoney = item.sellPrice * amount; 
 
-        // Visuals
+       
         if (itemIcon) itemIcon.sprite = item.itemIcon;
-        // if (rewardText) rewardText.text = $"${_rewardMoney}";
+      
 
-        // Setup Button Click
+    
         sellButton.onClick.RemoveAllListeners();
         sellButton.onClick.AddListener(OnSellClicked);
 
@@ -49,12 +49,12 @@ public class PostOfficeSlotUI : MonoBehaviour
         if (hasEnough)
         {
             sellButton.interactable = true;
-            sellButtonImage.color = Color.green; // Ready to sell
+            sellButtonImage.color = Color.green; 
         }
         else
         {
-            sellButton.interactable = false; // Disable click if not enough
-            sellButtonImage.color = Color.red;   // Not enough
+            sellButton.interactable = false; 
+            sellButtonImage.color = Color.red;  
         }
     }
 

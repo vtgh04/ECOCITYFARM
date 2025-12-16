@@ -15,7 +15,6 @@ public class SaveLoadManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        // Đường dẫn chuẩn (Ổ C:/Users/.../AppData/LocalLow/...)
         savePath = Path.Combine(Application.persistentDataPath, saveFileName);
         Debug.Log("📂 Save Path: " + savePath);
     }
@@ -27,13 +26,10 @@ public class SaveLoadManager : MonoBehaviour
         if (isNewGame == 1)
         {
             Debug.Log("🔄 NEW GAME: Resetting Data...");
-            // Xóa file save cũ đi để ép game load lại từ đầu (sạch sẽ hơn là copy đè)
             if (File.Exists(savePath)) File.Delete(savePath);
             
-            // Tải dữ liệu mặc định từ Resources
             LoadDefaultSave();
             
-            // Reset cờ
             PlayerPrefs.SetInt("IsNewGame", 0);
             PlayerPrefs.Save();
         }
@@ -71,7 +67,6 @@ public class SaveLoadManager : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError("❌ Lỗi Load Game: " + e.Message);
-            // Nếu lỗi file save, load mặc định để cứu game
             LoadDefaultSave();
         }
     }
@@ -87,7 +82,6 @@ public class SaveLoadManager : MonoBehaviour
             _isDataLoaded = true;
             Debug.Log("✅ Đã Load Default Save!");
             
-            // Lưu ngay lập tức ra ổ đĩa để tạo file save
             SaveGame(); 
         }
         else
@@ -96,11 +90,10 @@ public class SaveLoadManager : MonoBehaviour
         }
     }
 
-    // --- HÀM ÁP DỤNG DỮ LIỆU (Tách ra để dùng chung) ---
     private void ApplyDataToGame(GameData data)
     {
         if (data == null) return;
-        ClearRuntimeObjects(); // Xóa sạch trước khi load
+        ClearRuntimeObjects(); 
 
         // 1. Stats
         if (TimeManager.Instance) TimeManager.Instance.SetTimeData(data.time.day, data.time.dayProgress);
@@ -129,7 +122,6 @@ public class SaveLoadManager : MonoBehaviour
                 structure.size = bData.size;
                 structure.originCoords = GridSystem.Instance.GetGridCoordinate(b.position);
 
-                // Quan trọng: Đổi tên để xóa "(Clone)" đi cho đẹp và dễ quản lý
                 obj.name = b.buildingID; 
 
                 BuildingRegistry.Instance.RegisterBuilding(obj.GetInstanceID(), obj, structure.originCoords, structure.size);
@@ -137,9 +129,8 @@ public class SaveLoadManager : MonoBehaviour
             }
         }
 
-        Physics.SyncTransforms(); // Cập nhật vật lý ngay lập tức
-
-        // 4. Crops (SỬA LỖI CÂY KHÔNG LÊN)
+        Physics.SyncTransforms(); 
+ 
         foreach (var c in data.crops) {
             PlantData pData = GameAssets.Instance.GetPlant(c.plantID);
             if (pData) {
@@ -181,13 +172,10 @@ public class SaveLoadManager : MonoBehaviour
         // 3. Buildings
         WorldStructure[] structures = FindObjectsOfType<WorldStructure>();
         foreach (var s in structures) {
-            // Lưu tất cả object có script WorldStructure (trừ những cái gốc trong scene nếu có)
-            // Cách tốt nhất là dựa vào BuildingRegistry hoặc check tên
-            // Ở đây mình lưu tất cả những gì instantiate ra (thường có Clone hoặc được đặt tên lại)
-            if (s.gameObject.scene.name == null) continue; // Bỏ qua prefab gốc
+        
+            if (s.gameObject.scene.name == null) continue; 
 
-            // Lấy tên gốc từ Data (Cần BuildingData gắn trên object hoặc suy ra từ tên)
-            // Giả sử tên object là "PostOffice" hoặc "PostOffice(Clone)"
+         
             string cleanID = s.gameObject.name.Replace("(Clone)", "").Trim();
             
             data.buildings.Add(new BuildingSaveData {
@@ -199,19 +187,18 @@ public class SaveLoadManager : MonoBehaviour
         }
 
         // 4. Crops
-         data.crops.Clear(); // Xóa dữ liệu cũ trong list trước khi thêm mới
+         data.crops.Clear(); 
         FarmlandPlot[] plots = FindObjectsOfType<FarmlandPlot>();
         
         foreach (var p in plots) 
         {
-            // Kiểm tra kỹ: Đất đã trồng VÀ Dữ liệu cây không được null
             if (p.IsPlanted && p.GetCurrentCrop() != null)
             {
                 data.crops.Add(new CropSaveData 
                 { 
-                    plantID = p.GetCurrentCrop().plantName, // Lấy tên cây
-                    position = p.transform.position,        // Lấy vị trí
-                    daysOld = p.GetDaysOld()                // Lấy số ngày tuổi
+                    plantID = p.GetCurrentCrop().plantName, 
+                    position = p.transform.position,       
+                    daysOld = p.GetDaysOld()              
                 });
             }
         }
@@ -222,11 +209,11 @@ public class SaveLoadManager : MonoBehaviour
 
     private void ClearRuntimeObjects()
     {
-        // Xóa nhà (Tìm tất cả WorldStructure)
+  
         foreach (var s in FindObjectsOfType<WorldStructure>()) {
-            // Chỉ xóa những cái sinh ra (Clone) hoặc đã được load
-            // Tránh xóa nhầm địa hình nếu địa hình lỡ gắn script này
-            if (s.transform.parent == null) // Thường nhà nằm ngoài root
+      
+           
+            if (s.transform.parent == null)
             {
                 if(GridSystem.Instance) GridSystem.Instance.FreeArea(s.GetOccupiedCells());
                 Destroy(s.gameObject);

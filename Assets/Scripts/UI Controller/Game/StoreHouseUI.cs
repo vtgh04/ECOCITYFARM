@@ -22,7 +22,6 @@ public class StoreHouseUI : MonoBehaviour
         if (btnUpgrade) btnUpgrade.onClick.AddListener(OnUpgradeClicked);
     }
 
-    // --- HÀM MỞ PANEL (Đã cập nhật) ---
     public void ShowPanel()
     {
         if (panel)

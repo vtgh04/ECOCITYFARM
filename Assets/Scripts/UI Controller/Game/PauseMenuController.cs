@@ -69,14 +69,14 @@ public class PauseMenuController : MonoBehaviour
         if (settingsController)
         {
             settingsController.ToggleSettings();
-            // Ensure Settings also comes to front if opened
+       
             settingsController.transform.SetAsLastSibling();
         }
     }
 
     public void SaveAndQuit()
     {
-        Time.timeScale = 1f; // Must reset time before changing scene
+        Time.timeScale = 1f; 
         if (SaveLoadManager.Instance != null)
         {
             SaveLoadManager.Instance.SaveGame();
@@ -84,7 +84,7 @@ public class PauseMenuController : MonoBehaviour
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
-    // Helper to check if pause menu is currently open
+    
     public bool IsPauseOpen()
     {
         return pausePanel != null && pausePanel.activeSelf;

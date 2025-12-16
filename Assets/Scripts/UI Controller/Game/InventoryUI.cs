@@ -61,8 +61,7 @@ public class InventoryUI : MonoBehaviour
             newRow.transform.localScale = Vector3.one; 
             newRow.transform.localPosition = new Vector3(newRow.transform.localPosition.x, newRow.transform.localPosition.y, 0);
 
-            // Note: We use 'null' for the click action here because standard inventory 
-            // might not do anything on click, or you can add a Consume function later.
+
             newRow.Setup(itemPair.Key, itemPair.Value); 
             
             newRow.gameObject.SetActive(true);

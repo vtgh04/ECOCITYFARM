@@ -36,13 +36,19 @@ public class BuildingRegistry : MonoBehaviour
             _placedBuildings.Add(buildingID, info);
     }
 
- public void UnregisterBuilding(int buildingID)
+public void UnregisterBuilding(int buildingID)
+{
+    if (_placedBuildings.ContainsKey(buildingID))
     {
-        if (_placedBuildings.ContainsKey(buildingID))
-        {
-            _placedBuildings.Remove(buildingID);
-        }
+        var buildingInfo = _placedBuildings[buildingID];
+        var buildingName = buildingInfo.buildingObject.name;
+
+        _placedBuildings.Remove(buildingID);
+
+        // Track building deletion to Cloud
+        CloudSaveIntegration.OnBuildingDeleted(buildingName);
     }
+}
 
     public void ClearRegistry()
     {
@@ -84,7 +90,7 @@ public class BuildingRegistry : MonoBehaviour
                 structure.size
             );
             
-            // Debug.Log($"[Registry] Found existing building: {structure.gameObject.name}");
+   
         }
     }
 }

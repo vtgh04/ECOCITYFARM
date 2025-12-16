@@ -9,7 +9,6 @@ public class PlayerInteraction : MonoBehaviour
     [Tooltip("Layer for Houses, Fences, and Plants (The things you want to delete)")]
     [SerializeField] private LayerMask buildingLayer; 
     
-    // We keep this for planting logic
     [SerializeField] private LayerMask groundLayer;
 
     private Camera _mainCamera;
@@ -19,10 +18,8 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
-        // 1. Chặn click xuyên UI
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
 
-        // 2. Logic Tool (Harvest / Remove)
         if (ToolManager.Instance != null)
         {
             if (ToolManager.Instance.CurrentTool == ToolType.Harvest) 
@@ -32,14 +29,13 @@ public class PlayerInteraction : MonoBehaviour
                 HandleRemoveInput_Final();
         }
         
-        // 3. Logic Tương tác (Mở Panel nhà)
         if (ToolManager.Instance == null || ToolManager.Instance.CurrentTool == ToolType.None)
         {
             if (Mouse.current.leftButton.wasPressedThisFrame) CheckBuildingInteraction();
         }
     }
 
-    // --- HÀM XÓA ĐÃ CẬP NHẬT LOGIC HÀNG RÀO ---
+   
     private void HandleRemoveInput_Final()
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
@@ -53,31 +49,37 @@ public class PlayerInteraction : MonoBehaviour
             {
                 bool deletedSomething = false;
 
-                // A. Kiểm tra xem có phải Công Trình (Nhà, Hàng Rào) không
-                WorldStructure structure = hit.collider.GetComponentInParent<WorldStructure>();
-                if (structure != null)
+             
+                FarmlandPlot plot = hit.collider.GetComponentInParent<FarmlandPlot>();
+                if (plot != null && plot.IsPlanted)
                 {
-                    // --- ĐOẠN MỚI: XỬ LÝ HÀNG RÀO ---
-                    // Nếu vật bị xóa là Hàng Rào, báo cho hàng xóm update lại
-                    FenceConnector fence = structure.GetComponent<FenceConnector>();
-                    if (fence != null)
-                    {
-                        fence.ForceUpdateNeighbors();
-                    }
-                    // --------------------------------
-
-                    // Giải phóng đất và Xóa
-                    GridSystem.Instance.FreeArea(structure.GetOccupiedCells());
-                    Destroy(structure.gameObject);
+                 
+                    plot.ClearPlant();
                     deletedSomething = true;
                 }
-                // B. Kiểm tra xem có phải Cây Trồng không
+          
                 else
                 {
-                    FarmlandPlot plot = hit.collider.GetComponentInParent<FarmlandPlot>();
-                    if (plot != null && plot.IsPlanted)
+                    WorldStructure structure = hit.collider.GetComponentInParent<WorldStructure>();
+                    if (structure != null)
                     {
-                        plot.ClearPlant();
+                        // B. Cập nhật hàng xóm nếu là Fence
+                        FenceConnector fence = structure.GetComponent<FenceConnector>();
+                        if (fence != null)
+                        {
+                            fence.ForceUpdateNeighbors();
+                        }
+                        // --------------------------------
+
+                        GridSystem.Instance.FreeArea(structure.GetOccupiedCells());
+                        
+                        // Track building deletion to Cloud
+                        string buildingName = structure.gameObject.name;
+                        
+                        Destroy(structure.gameObject);
+                        
+                        // After destruction, notify Cloud
+                        CloudSaveIntegration.OnBuildingDeleted(buildingName);
                         deletedSomething = true;
                     }
                 }
@@ -90,7 +92,7 @@ public class PlayerInteraction : MonoBehaviour
                     if (BuildingPlacementSystem.Instance)
                         BuildingPlacementSystem.Instance.SpawnMoneyPopup(hit.point, -REMOVE_COST);
 
-                    // Thêm âm thanh xóa (nếu có)
+                 
                     if (GameSoundController.Instance) 
                         GameSoundController.Instance.PlayPlaceBuilding(); // Dùng tạm tiếng đặt nhà cho tiếng xóa
                 }
@@ -122,6 +124,8 @@ public class PlayerInteraction : MonoBehaviour
                 FarmlandPlot plot = hit.collider.GetComponentInParent<FarmlandPlot>();
                 if (plot != null) plot.TryHarvest();
             }
+            
         }
+        
     }
 }

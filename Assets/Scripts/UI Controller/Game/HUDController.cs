@@ -49,11 +49,11 @@ public class HUDController : MonoBehaviour
     {
         Debug.Log("🔴 ESC Pressed!");
 
-        // 1. ZOOM (Highest Priority)
+        // 1. ZOOM (Highest Priority) - Also closes building UIs
         SimpleBuildingZoom zoom = Camera.main.GetComponent<SimpleBuildingZoom>();
         if (zoom != null && zoom.IsFocused)
         {
-            Debug.Log("→ Step 1: Unfocusing Zoom");
+            Debug.Log("→ Step 1: Unfocusing Zoom and closing Building UIs");
             zoom.Unfocus();
             return;
         }
@@ -75,7 +75,6 @@ public class HUDController : MonoBehaviour
         }
 
         // 4. GENERAL UI (Market/Inventory/Tools/Settings)
-        // Check each UI individually and only return if actually closed something
         
         if (marketUI != null && marketUI.IsMarketOpen())
         {
@@ -98,14 +97,11 @@ public class HUDController : MonoBehaviour
             return;
         }
 
-        // Settings: Check both active AND has some visual indication it's open
-        // (Sometimes Settings GameObject is active but panel is hidden)
         bool pauseMenuIsOpen = pauseMenu != null && pauseMenu.GetComponent<PauseMenuController>() != null 
                                && pauseMenu.GetComponent<PauseMenuController>().IsPauseOpen();
         
         if (settingsUI != null && settingsUI.gameObject.activeSelf)
         {
-            // Only close if Settings has visible panel
             Transform settingsPanel = settingsUI.transform.Find("SettingsPanel"); // Adjust to your Settings panel name
             bool settingsIsVisible = settingsPanel != null && settingsPanel.gameObject.activeSelf;
             
@@ -141,7 +137,6 @@ public class HUDController : MonoBehaviour
         }
 
         // 6. PAUSE MENU (Lowest Priority)
-        // Only toggle if nothing else was handled above
         Debug.Log("→ Step 6: Toggling Pause Menu");
         if (pauseMenu != null)
         {

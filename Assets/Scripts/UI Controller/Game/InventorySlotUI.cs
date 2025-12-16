@@ -25,7 +25,7 @@ public class InventorySlotUI : MonoBehaviour
         // 2. Set Text (The Black Bar Text)
         if (qtyText != null)
         {
-            qtyText.text = count.ToString("N0"); // N0 adds commas (e.g., 370,462)
+            qtyText.text = count.ToString("N0"); 
         }
     }
 }

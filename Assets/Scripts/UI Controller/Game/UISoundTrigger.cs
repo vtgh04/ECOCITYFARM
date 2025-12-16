@@ -14,9 +14,7 @@ public class UISoundTrigger : MonoBehaviour, IPointerEnterHandler, IPointerClick
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // Only play hover if the button is interactable
         if (_btn != null && !_btn.interactable) return;
-        // Debug.Log("Mouse Entered Button: " + gameObject.name); // 
 
         if (GameSoundController.Instance != null)
             GameSoundController.Instance.PlayHover();

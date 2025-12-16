@@ -14,7 +14,6 @@ public class StoreHouseClickable : MonoBehaviour
     {
         if (Time.time < _creationTime + COOLDOWN) return;
 
-        // Chỉ mở UI, không cần zoom nữa → Camera tự lo
         StoreHouseUI.Instance?.ShowPanel();
     }
 }

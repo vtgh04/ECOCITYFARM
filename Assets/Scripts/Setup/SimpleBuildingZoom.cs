@@ -92,12 +92,16 @@ public class SimpleBuildingZoom : MonoBehaviour
 
     private void FocusOnObject(Transform target)
     {
-        if (_isFocused) return;
+        // Allow refocus to different building by not returning if already focused
+        // This allows switching zoom targets
+        
+        if (!_isFocused)
+        {
+            _originalPos = transform.position;
+            _originalRot = transform.rotation;
 
-        _originalPos = transform.position;
-        _originalRot = transform.rotation;
-
-        if (_mainController != null) _mainController.enabled = false;
+            if (_mainController != null) _mainController.enabled = false;
+        }
 
         Vector3 direction = transform.forward; 
         Vector3 centerPoint = target.position + Vector3.up * heightOffset;
@@ -113,6 +117,10 @@ public class SimpleBuildingZoom : MonoBehaviour
     {
         if (!_isFocused) return;
         _isFocused = false; // This triggers the 'else' block in Update to return home
+        
+        // Close any open building UIs when unfocusing camera
+        if (StoreHouseUI.Instance != null) StoreHouseUI.Instance.ClosePanel();
+        if (PostOfficeUI.Instance != null) PostOfficeUI.Instance.ClosePanel();
     }
         
 
