@@ -5,7 +5,7 @@
 ![Language](https://img.shields.io/badge/Language-C%23-green)
 ![License](https://img.shields.io/badge/License-MIT-orange)
 
-> **ECOCITY** là dự án game mô phỏng xây dựng thành phố 3D, tập trung vào việc cân bằng giữa phát triển kinh tế và bảo vệ môi trường. Dự án được phát triển nhằm mục đích học tập và nghiên cứu các hệ thống cốt lõi trong Unity.
+> **ECOCITY** là dự án game mô phỏng xây dựng thành phố 3D, tập trung vào việc cân bằng giữa phát triển kinh tế,xây dựng,quy hoạch và bảo vệ môi trường. Dự án được phát triển nhằm mục đích học tập và nghiên cứu các hệ thống cốt lõi trong Unity.
 
 ![Gameplay Demo](Docs/Images/MainMenu.jpg)
 
