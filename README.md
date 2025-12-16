@@ -20,7 +20,6 @@
 *   **Time System:** Hệ thống thời gian thực trôi trong game (0h - 24h).
 *   **Dynamic Lighting:** Ánh sáng mặt trời (Directional Light) xoay theo thời gian thực.
 *   **Ambient Control:** Màu sắc môi trường và Skybox thay đổi theo biểu đồ Gradient (Sáng -> Trưa -> Chiều -> Tối).
-*   **Smart Street Lights:** Hệ thống đèn đường tự động bật/tắt khi trời tối/sáng (Tối ưu hiệu năng).
 
 ### 📊 Quản lý Tài nguyên & Dữ liệu (Economy & Data)
 *   **ScriptableObjects:** Quản lý dữ liệu công trình (Giá tiền, Mức tiêu thụ điện, Chỉ số ô nhiễm) giúp dễ dàng cân bằng game mà không cần sửa code.
